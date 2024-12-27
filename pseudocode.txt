@@ -1,0 +1,14 @@
+pybliotheque.py /path/to/pdfds /output/path/for/updated/files
+
+pdfs="/path/to/pdfs"
+
+FUNCTION ("pdfs"){
+    Program reads all files in directory, only epub and pdf
+    RETURN list stored in array.
+}
+
+
+
+FUNCTION (books){
+    
+}
