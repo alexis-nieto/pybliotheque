@@ -4,14 +4,19 @@
 
 
 # FROM (Required): Specifies the base model to use.
-FROM llama3.2:latest
+# FROM llama3.2:latest
+FROM mistral:latest
+# Ditched llama in favor of mistral, llama will always find a way to ignore the instructions.
 
 
 
 # PARAMETER: Configures how Ollama will run the model.
 
-PARAMETER temperature 0.2
-# Sets the temperature to 0.2. Lower values result in more deterministic and coherent outputs, closely adhering to instructions.
+PARAMETER temperature 0.1
+# Sets the temperature to 0.1. Lower values result in more deterministic and coherent outputs, closely adhering to instructions.
+
+PARAMETER top_p 0.1
+# Sets the top_p to 0.1. This restricts nucleus sampling to high-probability tokens for more consistent and instruction-following responses.
 
 PARAMETER num_ctx 8192
 # Sets the context window size to 8192 tokens. This determines the maximum number of tokens the model can use as context when generating responses.
@@ -20,12 +25,16 @@ PARAMETER num_ctx 8192
 
 
 # TEMPLATE and SYSTEM sections would follow here as needed.
+# TEMPLATE """
+# FORMAT: JSON_ONLY
+# """
 
 # sets a custom system message to specify the behavior of the chat assistant
 SYSTEM """
 
 You are an AI designed to extract information from books.
-Your task is to read the provided book text and generate a JSON object with the following structure:
+
+Your task is to read the provided book text and generate a JSON object with the following structure, RESPONSES WITH EXTRA TEXT WILL BE REJECTED OUTRIGHT, FAILURE TO STRICTLY ADHERE TO THE FORMAT WILL RESULT IN NON-USABLE OUTPUT.
 
 {
     "title": "",
